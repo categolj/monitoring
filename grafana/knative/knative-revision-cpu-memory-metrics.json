@@ -1,5 +1,13 @@
 {
   "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
   ],
   "__requires": [
   ],
@@ -29,7 +37,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -68,7 +76,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"$revision.*\", container != \"POD\", container != \"\"}[1m])) by (container)",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\", cluster=\"$cluster\", pod=~\"$revision.*\", container != \"POD\", container != \"\"}[1m])) by (container)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -122,7 +130,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -160,7 +168,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", pod=~\"$revision.*\", container != \"POD\", container != \"\"}) by (container)",
+          "expr": "sum(container_memory_usage_bytes{namespace=\"$namespace\", cluster=\"$cluster\", pod=~\"$revision.*\", container != \"POD\", container != \"\"}) by (container)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{container}}",
@@ -209,7 +217,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": "30s",
   "schemaVersion": 30,
   "style": "dark",
   "tags": [
@@ -218,25 +226,33 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "text": "default",
-          "value": "default"
-        },
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "definition": "label_values(activator_request_count, cluster)",
         "hide": 0,
-        "label": "Datasource",
-        "name": "datasource",
-        "options": [
-        ],
-        "query": "prometheus",
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "query": "label_values(activator_request_count, cluster)",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "",
-        "type": "datasource"
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       },
       {
         "allValue": null,
         "current": {},
-        "datasource": "$datasource",
-        "definition": "label_values(kube_pod_labels{label_serving_knative_dev_configuration=~\".+\"}, namespace)",
+        "datasource": "${DS_PROMETHEUS}",
+        "definition": "label_values(activator_request_count{cluster=\"$cluster\"}, namespace)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -246,10 +262,10 @@
         "name": "namespace",
         "options": [],
         "query": {
-          "query": "label_values(kube_pod_labels{label_serving_knative_dev_configuration=~\".+\"}, namespace)",
+          "query": "label_values(activator_request_count{cluster=\"$cluster\"}, namespace_name)",
           "refId": "StandardVariableQuery"
         },
-        "refresh": 2,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
@@ -261,8 +277,8 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "$datasource",
-        "definition": "label_values(kube_pod_labels{label_serving_knative_dev_configuration=~\".+\", namespace=\"$namespace\"}, label_serving_knative_dev_configuration)",
+        "datasource": "${DS_PROMETHEUS}",
+        "definition": "label_values(activator_request_count{namespace_name=\"$namespace\", cluster=\"$cluster\"}, configuration_name)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -272,10 +288,10 @@
         "name": "configuration",
         "options": [],
         "query": {
-          "query": "label_values(kube_pod_labels{label_serving_knative_dev_configuration=~\".+\", namespace=\"$namespace\"}, label_serving_knative_dev_configuration)",
+          "query": "label_values(activator_request_count{namespace_name=\"$namespace\", cluster=\"$cluster\"}, configuration_name)",
           "refId": "StandardVariableQuery"
         },
-        "refresh": 2,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
@@ -287,8 +303,8 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "$datasource",
-        "definition": "label_values(kube_pod_labels{label_serving_knative_dev_configuration=~\".+\", namespace=\"$namespace\", label_serving_knative_dev_configuration=\"$configuration\"}, label_serving_knative_dev_revision)",
+        "datasource": "${DS_PROMETHEUS}",
+        "definition": "label_values(activator_request_count{namespace_name=\"$namespace\", cluster=\"$cluster\", configuration_name=\"$configuration\"}, revision_name)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -298,10 +314,10 @@
         "name": "revision",
         "options": [],
         "query": {
-          "query": "label_values(kube_pod_labels{label_serving_knative_dev_configuration=~\".+\", namespace=\"$namespace\", label_serving_knative_dev_configuration=\"$configuration\"}, label_serving_knative_dev_revision)",
+          "query": "label_values(activator_request_count{namespace_name=\"$namespace\", cluster=\"$cluster\", configuration_name=\"$configuration\"}, revision_name)",
           "refId": "StandardVariableQuery"
         },
-        "refresh": 2,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 2,
@@ -313,7 +329,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
@@ -342,7 +358,5 @@
     ]
   },
   "timezone": "",
-  "title": "Knative Serving - Revision CPU and Memory Usage",
-  "uid": "PB08H0R7z",
-  "version": 4
+  "title": "Knative Serving - Revision CPU and Memory Usage"
 }

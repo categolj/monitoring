@@ -1,7 +1,14 @@
 {
   "title": "Knative Serving - Scaling Debugging",
-  "uid": "Bn1mdAR7z",
   "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
   ],
   "__requires": [
   ],
@@ -28,7 +35,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -45,7 +52,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -83,7 +90,7 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "sum(autoscaler_actual_pods{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_actual_pods{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "interval": "1s",
           "intervalFactor": 1,
@@ -91,7 +98,7 @@
           "refId": "A"
         },
         {
-          "expr": "sum(autoscaler_requested_pods{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_requested_pods{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "interval": "1s",
           "intervalFactor": 1,
@@ -99,7 +106,7 @@
           "refId": "C"
         },
         {
-          "expr": "sum(autoscaler_pending_pods{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_pending_pods{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "interval": "1s",
           "intervalFactor": 1,
@@ -107,7 +114,7 @@
           "refId": "P"
         },
         {
-          "expr": "sum(autoscaler_not_ready_pods{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_not_ready_pods{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "interval": "1s",
           "intervalFactor": 1,
@@ -115,7 +122,7 @@
           "refId": "N"
         },
         {
-          "expr": "sum(autoscaler_terminating_pods{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_terminating_pods{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "interval": "1s",
           "intervalFactor": 1,
@@ -170,7 +177,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -208,7 +215,7 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "sum(activator_request_concurrency{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(activator_request_concurrency{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "interval": "1s",
           "intervalFactor": 1,
@@ -259,7 +266,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -276,7 +283,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -383,7 +390,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -486,7 +493,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -503,7 +510,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -541,14 +548,14 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "sum(autoscaler_desired_pods{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"}) ",
+          "expr": "sum(autoscaler_desired_pods{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"}) ",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Desired Pods",
           "refId": "A"
         },
         {
-          "expr": "sum(autoscaler_observed_pods{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_observed_pods{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Observed Pods",
@@ -601,7 +608,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -655,7 +662,7 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "sum(autoscaler_stable_request_concurrency{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_stable_request_concurrency{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "interval": "1s",
           "intervalFactor": 1,
@@ -663,7 +670,7 @@
           "refId": "A"
         },
         {
-          "expr": "sum(autoscaler_panic_request_concurrency{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_panic_request_concurrency{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "interval": "1s",
           "intervalFactor": 1,
@@ -671,14 +678,14 @@
           "refId": "B"
         },
         {
-          "expr": "sum(autoscaler_target_concurrency_per_pod{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_target_concurrency_per_pod{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Target Concurrency",
           "refId": "C"
         },
         {
-          "expr": "sum(autoscaler_excess_burst_capacity{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+          "expr": "sum(autoscaler_excess_burst_capacity{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Excess Burst Capacity",
@@ -728,7 +735,7 @@
     },
     {
       "collapsed": true,
-      "datasource": "$datasource",
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -742,7 +749,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "${DS_PROMETHEUS}",
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -780,7 +787,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "round(sum(increase(activator_request_count{namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (response_code))",
+              "expr": "round(sum(increase(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (response_code))",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{ response_code }}",
@@ -833,7 +840,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "${DS_PROMETHEUS}",
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -871,28 +878,28 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+              "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{ revision_name }} (p50)",
               "refId": "A"
             },
             {
-              "expr": "label_replace(histogram_quantile(0.90, sum(rate(activator_request_latencies_bucket{namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+              "expr": "label_replace(histogram_quantile(0.90, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{ revision_name }} (p90)",
               "refId": "B"
             },
             {
-              "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+              "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{ revision_name }} (p95)",
               "refId": "C"
             },
             {
-              "expr": "label_replace(histogram_quantile(0.99, sum(rate(activator_request_latencies_bucket{namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+              "expr": "label_replace(histogram_quantile(0.99, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{ revision_name }} (p99)",
@@ -945,7 +952,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "$datasource",
+          "datasource": "${DS_PROMETHEUS}",
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
@@ -999,7 +1006,7 @@
           "steppedLine": true,
           "targets": [
             {
-              "expr": "sum(activator_request_concurrency{namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
+              "expr": "sum(activator_request_concurrency{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\", revision_name=\"$revision\"})",
               "format": "time_series",
               "interval": "1s",
               "intervalFactor": 1,
@@ -1062,24 +1069,32 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "text": "default",
-          "value": "default"
-        },
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "definition": "label_values(autoscaler_desired_pods, cluster)",
         "hide": 0,
-        "label": "Datasource",
-        "name": "datasource",
-        "options": [
-        ],
-        "query": "prometheus",
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "query": "label_values(autoscaler_desired_pods, cluster)",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "",
-        "type": "datasource"
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       },
       {
         "allValue": null,
         "current": {},
-        "datasource": "$datasource",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -1090,7 +1105,7 @@
         "name": "namespace",
         "options": [],
         "query": {
-          "query": "label_values(autoscaler_desired_pods, namespace_name)",
+          "query": "label_values(autoscaler_desired_pods{cluster=\"$cluster\"}, namespace_name)",
           "refId": "prometheus-namespace-Variable-Query"
         },
         "refresh": 1,
@@ -1105,7 +1120,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "$datasource",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -1116,7 +1131,7 @@
         "name": "configuration",
         "options": [],
         "query": {
-          "query": "label_values(autoscaler_desired_pods{namespace_name=\"$namespace\"}, configuration_name)",
+          "query": "label_values(autoscaler_desired_pods{cluster=\"$cluster\", namespace_name=\"$namespace\"}, configuration_name)",
           "refId": "prometheus-configuration-Variable-Query"
         },
         "refresh": 1,
@@ -1131,7 +1146,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "$datasource",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -1142,7 +1157,7 @@
         "name": "revision",
         "options": [],
         "query": {
-          "query": "label_values(autoscaler_desired_pods{namespace_name=\"$namespace\", configuration_name=\"$configuration\"}, revision_name)",
+          "query": "label_values(autoscaler_desired_pods{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=\"$configuration\"}, revision_name)",
           "refId": "prometheus-revision-Variable-Query"
         },
         "refresh": 1,
@@ -1157,7 +1172,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
@@ -1185,6 +1200,5 @@
       "30d"
     ]
   },
-  "timezone": "",
-  "version": 3
+  "timezone": ""
 }
