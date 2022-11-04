@@ -128,7 +128,7 @@
         {
           "datasource": "${DS_PROMETHEUS}",
           "exemplar": true,
-          "expr": "round(sum(rate(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[1m])), 0.001)",
+          "expr": "round(sum(rate(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[5m])), 0.001)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -158,11 +158,11 @@
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
-                "value": 95
+                "value": 0.95
               },
               {
                 "color": "#299c46",
-                "value": 99
+                "value": 0.99
               }
             ]
           },
@@ -199,7 +199,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(activator_request_count{response_code_class!=\"5xx\", cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[1m])) / sum(rate(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[1m]))",
+          "expr": "sum(rate(activator_request_count{response_code_class!=\"5xx\", cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[5m]) > 0) / sum(rate(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[5m]) > 0)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -265,7 +265,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(activator_request_count{response_code_class=\"4xx\", cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[1m])) ",
+          "expr": "sum(rate(activator_request_count{response_code_class=\"4xx\", cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[5m])) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -331,7 +331,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(rate(activator_request_count{response_code_class=\"5xx\", cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[1m])) ",
+          "expr": "sum(rate(activator_request_count{response_code_class=\"5xx\", cluster=\"$cluster\", namespace_name=\"$namespace\", revision_name=~\"$revision\", configuration_name=~\"$configuration\"}[5m])) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -400,7 +400,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "label_replace(round(sum(rate(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name), 0.001), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(round(sum(rate(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[5m])) by (revision_name), 0.001), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -493,7 +493,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "round(sum(rate(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (response_code_class), 0.001)",
+          "expr": "round(sum(rate(activator_request_count{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[5m])) by (response_code_class), 0.001)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -604,7 +604,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[5m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -613,7 +613,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.90, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.90, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[5m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -622,7 +622,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[5m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -631,7 +631,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.99, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[1m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.99, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\"}[5m])) by (revision_name, le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -728,7 +728,7 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"2xx\"}[1m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"2xx\"}[5m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -737,7 +737,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"3xx\"}[1m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"3xx\"}[5m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -746,7 +746,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"4xx\"}[1m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"4xx\"}[5m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -755,7 +755,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"5xx\"}[1m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.50, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"5xx\"}[5m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -764,7 +764,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"2xx\"}[1m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"2xx\"}[5m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -773,7 +773,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"3xx\"}[1m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"3xx\"}[5m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -782,7 +782,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"4xx\"}[1m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"4xx\"}[5m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -791,7 +791,7 @@
         },
         {
           "exemplar": true,
-          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"5xx\"}[1m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
+          "expr": "label_replace(histogram_quantile(0.95, sum(rate(activator_request_latencies_bucket{cluster=\"$cluster\", namespace_name=\"$namespace\", configuration_name=~\"$configuration\",revision_name=~\"$revision\",response_code_class=\"5xx\"}[5m])) by (le)), \"revision_name\", \"$2\", \"revision_name\", \"$configuration(-+)(.*)\")",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
